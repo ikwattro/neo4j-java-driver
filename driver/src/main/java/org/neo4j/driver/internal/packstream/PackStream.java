@@ -481,8 +481,12 @@ public class PackStream
             switch(markerByte)
             {
             case MAP_8: return unpackUINT8();
-            case MAP_16: return unpackUINT16();
-            case MAP_32: return unpackUINT32();
+            case MAP_16:
+                System.out.println("MAP16");
+                return unpackUINT16();
+            case MAP_32:
+                System.out.println("MAP32");
+                return unpackUINT32();
             default: throw new Unexpected( "Expected a map, but got: " + toHexString( markerByte ));
             }
         }

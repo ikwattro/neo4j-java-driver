@@ -21,10 +21,7 @@ package org.neo4j.driver.v1.integration;
 import org.junit.Rule;
 import org.junit.Test;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.StatementResult;
@@ -171,5 +168,18 @@ public class StatementIT
         }
 
         assertThat( name.asString(), equalTo( "Adam" ) );
+    }
+
+    @Test
+    public void testShouldReturnNodeWithHighNumberOfProps() {
+        session.run("MATCH (n) DETACH DELETE n");
+        HashMap<String, Object> params = new HashMap<>();
+        HashMap<String, Object> props = new HashMap<>();
+        for (int i = 0; i < 32770; ++ i) {
+            props.put("key" + i, i);
+        }
+        params.put("props", props);
+        System.out.println("here");
+        session.run("CREATE (n) SET n += {props} RETURN n", params);
     }
 }
